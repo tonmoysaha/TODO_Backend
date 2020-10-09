@@ -37,7 +37,6 @@ public class TodoService {
 	}
 
 	private Todo findById(Long id) {
-		// TODO Auto-generated method stub
 		
 		if (id == null) {
 			return null;
