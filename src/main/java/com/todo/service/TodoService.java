@@ -38,7 +38,25 @@ public class TodoService {
 
 	private Todo findById(long id) {
 		// TODO Auto-generated method stub
-		return todos.stream().filter(todo -> todo.getId() == id).findFirst().get();
+		Todo todo2 = todos.stream().filter(todo -> todo.getId() == id).findFirst().get();
+		
+		if (todo2 != null) {
+			return todo2;
+		}
+		return null;
+	}
+	
+	public Todo save(Todo todo) {
+		Todo saveTodo = this.findById(todo.getId());
+		if (saveTodo == null) {
+			todo.setId((long) ++todoIDCount);
+			todos.add(todo);
+		} else {
+			this.deleteTodo(todo.getId());
+			todos.add(todo);
+		}
+		return todo;
+		
 	}
 
 }
