@@ -1,5 +1,6 @@
 package com.todo.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.todo.model.Todo;
 import com.todo.service.TodoService;
@@ -44,6 +47,18 @@ public class TodoController {
 	public ResponseEntity<Todo> updateTodo(@PathVariable("username") String name, @PathVariable("id") Long id, @RequestBody Todo todo){
 		Todo updateTodo = this.todoService.save(todo);
 		return new ResponseEntity<Todo>(updateTodo, HttpStatus.OK);
+		
+	}
+	
+	@PostMapping("{username}/todos")
+	public ResponseEntity<Void> saveTodo(@PathVariable("username") String name, @RequestBody Todo todo){
+		
+		Todo saveTodo = this.todoService.save(todo);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(saveTodo.getId()).toUri();
+		
+		return  ResponseEntity.created(uri).build();
 		
 	}
 

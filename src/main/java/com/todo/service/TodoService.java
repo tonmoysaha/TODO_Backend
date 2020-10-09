@@ -36,16 +36,16 @@ public class TodoService {
 
 	}
 
-	private Todo findById(long id) {
+	private Todo findById(Long id) {
 		// TODO Auto-generated method stub
-		Todo todo2 = todos.stream().filter(todo -> todo.getId() == id).findFirst().get();
 		
-		if (todo2 != null) {
-			return todo2;
-		}
-		return null;
+		if (id == null) {
+			return null;
+		}else {
+			return todos.stream().filter(todo -> todo.getId() == id).findFirst().get();
+		}		
 	}
-	
+
 	public Todo save(Todo todo) {
 		Todo saveTodo = this.findById(todo.getId());
 		if (saveTodo == null) {
@@ -56,7 +56,7 @@ public class TodoService {
 			todos.add(todo);
 		}
 		return todo;
-		
+
 	}
 
 }
