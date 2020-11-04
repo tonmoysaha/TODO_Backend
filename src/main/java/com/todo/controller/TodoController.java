@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,7 @@ import com.todo.model.Todo;
 import com.todo.service.TodoService;
 
 @RestController
+@CrossOrigin("http://localhost:4200")
 @RequestMapping("/users")
 public class TodoController {
 	
@@ -51,14 +53,15 @@ public class TodoController {
 	}
 	
 	@PostMapping("{username}/todos")
-	public ResponseEntity<Void> saveTodo(@PathVariable("username") String name, @RequestBody Todo todo){
+	public ResponseEntity<Todo> saveTodo(@PathVariable("username") String name, @RequestBody Todo todo){
 		
 		Todo saveTodo = this.todoService.save(todo);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-				.buildAndExpand(saveTodo.getId()).toUri();
-		
-		return  ResponseEntity.created(uri).build();
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+//				.buildAndExpand(saveTodo.getId()).toUri();
+//		
+//		return  ResponseEntity.created(uri).build();
+		return new ResponseEntity<Todo>(saveTodo , HttpStatus.OK);
 		
 	}
 
