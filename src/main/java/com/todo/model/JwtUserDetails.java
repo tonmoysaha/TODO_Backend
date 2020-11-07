@@ -1,4 +1,4 @@
-package com.todo.jwt;
+package com.todo.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
