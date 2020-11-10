@@ -1,60 +1,38 @@
 package com.todo.service;
 
-import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.todo.model.Todo;
+import com.todo.repository.TodoRepository;
 
 @Service
 public class TodoService {
 
-	private static List<Todo> todos = new LinkedList<>();
-	private static int todoIDCount = 0;
-
-	static {
-		todos.add(new Todo((long) ++todoIDCount, "opi", "Learn to dance", new Date(), false));
-		todos.add(new Todo((long) ++todoIDCount, "opi", "Learn about Microservice", new Date(), false));
-		todos.add(new Todo((long) ++todoIDCount, "opi", "Learn about Angular", new Date(), false));
-	}
+	@Autowired
+	private TodoRepository todoRepository;
+	
 
 	public List<Todo> getAll() {
-		return todos;
+		return todoRepository.findAll();
 
 	}
 
-	public Todo deleteTodo(long id) {
+	public void deleteTodo(Long id) {
 
-		Todo todo = this.findById(id);
-		if (todos.remove(todo)) {
-			return todo;
+		Todo todo = this.todoRepository.findById(id).orElse(null);
+		if (todo != null) {
+			this.todoRepository.delete(todo);
 		}
 
-		return null;
-
-	}
-
-	private Todo findById(Long id) {
-		
-		if (id == null) {
-			return null;
-		}else {
-			return todos.stream().filter(todo -> todo.getId() == id).findFirst().get();
-		}		
 	}
 
 	public Todo save(Todo todo) {
-		Todo saveTodo = this.findById(todo.getId());
-		if (saveTodo == null) {
-			todo.setId((long) ++todoIDCount);
-			todos.add(todo);
-		} else {
-			this.deleteTodo(todo.getId());
-			todos.add(todo);
-		}
-		return todo;
+
+		return this.todoRepository.save(todo);
 
 	}
 
