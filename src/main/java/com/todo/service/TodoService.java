@@ -16,8 +16,9 @@ public class TodoService {
 	private TodoRepository todoRepository;
 	
 
-	public List<Todo> getAll() {
-		return todoRepository.findAll();
+	public List<Todo> getAll(String name) {
+		
+		return todoRepository.findByUsername(name);
 
 	}
 
