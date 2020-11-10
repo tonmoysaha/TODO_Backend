@@ -21,12 +21,15 @@ public class TodoService {
 
 	}
 
-	public void deleteTodo(Long id) {
+	public boolean deleteTodo(Long id) {
 
 		Todo todo = this.todoRepository.findById(id).orElse(null);
 		if (todo != null) {
 			this.todoRepository.delete(todo);
+			return true;
 		}
+		return false;
+		
 
 	}
 

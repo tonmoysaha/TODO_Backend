@@ -34,8 +34,8 @@ public class TodoController {
 	
 	@DeleteMapping("{username}/todos/{id}")
 	public ResponseEntity<Void> deleteTodo(@PathVariable("username") String name, @PathVariable("id") Long id){
-		Todo deleteTodo = this.todoService.deleteTodo(id);
-		if (deleteTodo != null) {
+	
+		if (this.todoService.deleteTodo(id)) {
 			return ResponseEntity.noContent().build();
 		}
 		
