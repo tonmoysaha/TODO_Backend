@@ -22,9 +22,9 @@ public class TodoService {
 
 	}
 
-	public boolean deleteTodo(Long id) {
+	public boolean deleteTodo(String name, Long id) {
 
-		Todo todo = this.todoRepository.findById(id).orElse(null);
+		Todo todo = this.todoRepository.findByUsernameAndId(name,id);
 		if (todo != null) {
 			this.todoRepository.delete(todo);
 			return true;
