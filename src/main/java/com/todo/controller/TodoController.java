@@ -45,7 +45,7 @@ public class TodoController {
 	
 	@PutMapping("{username}/todos/{id}")
 	public ResponseEntity<Todo> updateTodo(@PathVariable("username") String name, @PathVariable("id") Long id, @RequestBody Todo todo){
-		Todo updateTodo = this.todoService.save(todo);
+		Todo updateTodo = this.todoService.save(name ,id ,todo);
 		return new ResponseEntity<Todo>(updateTodo, HttpStatus.OK);
 		
 	}
@@ -53,7 +53,7 @@ public class TodoController {
 	@PostMapping("{username}/todos")
 	public ResponseEntity<Todo> saveTodo(@PathVariable("username") String name, @RequestBody Todo todo){
 		
-		Todo saveTodo = this.todoService.save(todo);
+		Todo saveTodo = this.todoService.save(name, null ,todo);
 		
 //		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 //				.buildAndExpand(saveTodo.getId()).toUri();

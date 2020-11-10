@@ -14,29 +14,33 @@ public class TodoService {
 
 	@Autowired
 	private TodoRepository todoRepository;
-	
 
 	public List<Todo> getAll(String name) {
-		
+
 		return todoRepository.findByUsername(name);
 
 	}
 
 	public boolean deleteTodo(String name, Long id) {
 
-		Todo todo = this.todoRepository.findByUsernameAndId(name,id);
+		Todo todo = this.todoRepository.findByUsernameAndId(name, id);
 		if (todo != null) {
 			this.todoRepository.delete(todo);
 			return true;
 		}
 		return false;
-		
 
 	}
 
-	public Todo save(Todo todo) {
-
-		return this.todoRepository.save(todo);
+	public Todo save(String name, Long id, Todo todo) {
+		if (id == null) {
+			todo.setUsername(name);
+			return this.todoRepository.save(todo);
+		} else {
+			todo.setId(id);
+			todo.setUsername(name);
+			return this.todoRepository.save(todo);
+		}
 
 	}
 
